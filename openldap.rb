@@ -6,6 +6,7 @@ class Openldap < Formula
   sha1 '0cea642ba2dae1eb719da41bfedb9eba72ad504d'
 
   depends_on 'berkeley-db' => :optional
+  option 'with-memberof', 'Include memberof overlay'
 
   def install
     args = %W[--disable-dependency-tracking
@@ -15,6 +16,7 @@ class Openldap < Formula
 
     args << "--enable-bdb=no" unless build.with? "berkeley-db"
     args << "--enable-hdb=no" unless build.with? "berkeley-db"
+    args << "--enable-memberof" if build.with? "memberof"
 
     system "./configure", *args
     system "make install"
